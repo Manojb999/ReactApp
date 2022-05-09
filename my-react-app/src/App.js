@@ -1,5 +1,4 @@
 
-import { toHaveStyle } from '@testing-library/jest-dom/dist/matchers';
 import { Component } from 'react';
 import './App.css';
 
@@ -30,6 +29,19 @@ class App extends Component {
   render(){
     return (
       <div className="App">
+        <input className='search-box' type='search' placeholder='Search Here'
+         onChange={(event) => {
+           console.log(event.target.value)
+
+           const filteredArray = this.state.people.filter(
+             (person) => {return person.name.toLocaleLowerCase().includes(event.target.value.toLocaleLowerCase())}
+           );
+
+           this.setState(
+             () => {return {people : filteredArray}}
+           );
+
+         }}/>
         <header className="App-header">
           {this.state.people.map(
             (p) => {
