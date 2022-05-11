@@ -7,8 +7,21 @@ class App extends Component {
   {
     super();
     this.state = {
-      people : []
+      people : [],
+      searchField : ''
     };
+    
+  }
+
+  OnSearchChange= (event) => {
+    console.log(event.target.value)
+
+    const searchField = event.target.value.toLowerCase();
+
+    this.setState(
+      () => { return {searchField}}
+    );
+
   }
 
   componentDidMount()
@@ -26,24 +39,21 @@ class App extends Component {
     );
   }
 
-  render(){
+  render() {
+    const {people,searchField} = this.state;
+    const {OnSearchChange} = this;
+    const filteredArray = people.filter(
+      (person) => {
+        
+        return person.name.toLocaleLowerCase().includes(searchField)}
+  
+    );
     return (
       <div className="App">
         <input className='search-box' type='search' placeholder='Search Here'
-         onChange={(event) => {
-           console.log(event.target.value)
-
-           const filteredArray = this.state.people.filter(
-             (person) => {return person.name.toLocaleLowerCase().includes(event.target.value.toLocaleLowerCase())}
-           );
-
-           this.setState(
-             () => {return {people : filteredArray}}
-           );
-
-         }}/>
+         onChange={OnSearchChange}/>
         <header className="App-header">
-          {this.state.people.map(
+          {filteredArray.map(
             (p) => {
               return (
                   <div key={p.id}>
