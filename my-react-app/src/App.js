@@ -1,7 +1,8 @@
 
 import { Component } from 'react';
 import './App.css';
-
+import Cardlist from './component/card-list/card-list.component';
+import SearchBox from './component/search-box/search-box.component';
 class App extends Component {
   constructor()
   {
@@ -14,14 +15,10 @@ class App extends Component {
   }
 
   OnSearchChange= (event) => {
-    console.log(event.target.value)
-
     const searchField = event.target.value.toLowerCase();
-
     this.setState(
       () => { return {searchField}}
     );
-
   }
 
   componentDidMount()
@@ -32,9 +29,6 @@ class App extends Component {
       () => {
         return {people : users}
       },
-      () => {
-        console.log(this.state);
-      }
     )
     );
   }
@@ -44,26 +38,15 @@ class App extends Component {
     const {OnSearchChange} = this;
     const filteredArray = people.filter(
       (person) => {
-        
         return person.name.toLocaleLowerCase().includes(searchField)}
-  
     );
     return (
-      <div className="App">
-        <input className='search-box' type='search' placeholder='Search Here'
-         onChange={OnSearchChange}/>
-        <header className="App-header">
-          {filteredArray.map(
-            (p) => {
-              return (
-                  <div key={p.id}>
-                    <h1>Hi {p.name}</h1>
-                  </div>
-                );
-              }
-            )
-          }
-        </header>
+      <div className="App">    
+        <SearchBox OnSearchChange = {OnSearchChange} 
+          placeholder = {'Search People'}
+          className = {'Search-Box'}
+        />
+        <Cardlist people ={filteredArray}/>
       </div>
     );
   }
